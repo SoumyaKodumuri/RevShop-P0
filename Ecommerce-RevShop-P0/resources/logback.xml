@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+<appender name= "ConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+<encoder>
+<layout>
+<pattern>%d{HH:mm:ss.SSSS} %-1level %logger -%thread - %msg%n</pattern>
+</layout>
+</encoder>
+<withFormattedMessage>true</withFormattedMessage>
+
+</appender>
+
+
+
+
+
+<root level="Trace">
+<appender-ref ref="ConsoleAppender"></appender-ref>
+</root>
+
+</configuration>
