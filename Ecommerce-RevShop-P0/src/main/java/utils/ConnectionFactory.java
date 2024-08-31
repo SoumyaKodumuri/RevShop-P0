@@ -20,7 +20,7 @@ public class ConnectionFactory {
 	private ConnectionFactory(){
 		
 		 try {
-			 prop.load(new FileReader("C:\\Users\\SOUMYA\\eclipse-workspace\\Ecommerce-RevShop-P0\\resources\\db_properites"));
+			 prop.load(new FileReader("C:\\Users\\SOUMYA\\git\\Revshop-P0\\Ecommerce-RevShop-P0\\resources\\db_properites"));
 	      }
 		 catch (IOException e) {
 			 e.printStackTrace(); 

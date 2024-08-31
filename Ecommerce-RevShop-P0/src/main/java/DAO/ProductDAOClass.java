@@ -115,6 +115,19 @@ public class ProductDAOClass implements ProductDao{
 	}
     @Override
 	public boolean deleteProduct(int productId) {
+     String sql = "DELETE FROM product_details WHERE ProductId = ?";
+	    
+	    try (Connection con = ConnectionFactory.getConnectionFactory().getConnection();
+	         PreparedStatement stmt = con.prepareStatement(sql)) {
+	        
+	        stmt.setInt(1, productId); 
+	        
+	        int result = stmt.executeUpdate();
+	        return result > 0;
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
     	
 		return false;
 	}
@@ -122,64 +135,135 @@ public class ProductDAOClass implements ProductDao{
     
 	@Override
 	public productResponse getProductByName(String productName) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<productResponse> getAllCategories() {
-		// TODO Auto-generated method stub
-		return null;
+		List<productResponse> products = new ArrayList<>();
+        String sql = "SELECT * FROM product_details"; 
+
+        try (Connection con = ConnectionFactory.getConnectionFactory().getConnection();
+   	         PreparedStatement stmt = con.prepareStatement(sql);
+   	         ResultSet rs = stmt.executeQuery()) {
+ 
+
+            while (rs.next()) {
+            	products.add(new productResponse(
+            			rs.getInt("productId"),
+	                    rs.getString("productName"),
+	                    rs.getInt("categoryId"),
+                        rs.getFloat("price"),
+	                    rs.getString("productDescription"),
+	                    rs.getInt("sellerId"),
+                        rs.getInt("productQuantity"),
+                        rs.getString("user_review") )
+                );
+            }
+        } 
+          catch (SQLException e) {
+            e.printStackTrace(); 
+        }
+
+        return products;
 	}
 
 	@Override
 	public productResponse getProductDescriptionById(int productId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public productResponse getProductReviewsById(int productId) {
-		// TODO Auto-generated method stub
-		return null;
+		productResponse product = null;
+	  //  String sql = "SELECT productId, productName, price, productDescription, sellerId, productQuantity, user_review, categoryId FROM Product_details WHERE productId = ?";
+	    String sql= "SELECT productName FROM Product_details WHERE productId = ?";
+	    try (Connection con = ConnectionFactory.getConnectionFactory().getConnection();
+	         PreparedStatement stmt = con.prepareStatement(sql)) {
+	        
+	        stmt.setInt(1, productId);
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            if (rs.next()) {
+	                product = new productResponse(
+	                		rs.getInt("productId"),
+		                    rs.getString("productName"),
+		                    rs.getInt("categoryId"),
+                            rs.getFloat("price"),
+		                    rs.getString("productDescription"),
+		                    rs.getInt("sellerId"),
+                            rs.getInt("productQuantity"),
+	                        rs.getString("user_review")
+	                );
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return product;
 	}
+	
+	
 
 	@Override
 	public productResponse getCategoryById(int categoryId) {
-		// TODO Auto-generated method stub
-		return null;
+	    productResponse category = null;
+	    String sql = "SELECT * FROM Product_details WHERE categoryId = ?";
+	    
+	    try (Connection con = ConnectionFactory.getConnectionFactory().getConnection();
+	         PreparedStatement stmt = con.prepareStatement(sql)) {
+	        
+	        stmt.setInt(1, categoryId);
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            if (rs.next()) {
+	                category = new productResponse(
+	                		rs.getInt("productId"),
+		                    rs.getString("productName"),
+		                    rs.getInt("categoryId"),
+                            rs.getFloat("price"),
+		                    rs.getString("productDescription"),
+		                    rs.getInt("sellerId"),
+                            rs.getInt("productQuantity"),
+	                        rs.getString("user_review") );
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return category;
+
 	}
 
 	@Override
 	public productResponse getProductPriceById(int productId) {
-		return null;
-//	    productResponse product = null;
-//	    String sql = "SELECT productId, productName, price, productDescription, sellerId, productQuantity, user_review, categoryId FROM Product_details WHERE productId = ?";
-//	    
-//	    try (Connection con = ConnectionFactory.getConnectionFactory().getConnection();
-//	         PreparedStatement stmt = con.prepareStatement(sql)) {
-//	        
-//	        stmt.setInt(1, productId);
-//	        try (ResultSet rs = stmt.executeQuery()) {
-//	            if (rs.next()) {
-//	                return new productresponse(
-//	                    rs.getInt("productId"),
-//	                    rs.getString("productName"),
-//	                    rs.getFloat("price"),
-//	                    rs.getString("productDescription"),
-//	                    rs.getInt("sellerId"),
-//	                    rs.getInt("productQuantity"),
-//	                    rs.getString("user_review"),
-//	                    rs.getInt("categoryId")
-//	                );
-//	            }
-//	        }
-//	    } catch (SQLException e) {
-//	        e.printStackTrace();
-//	    }
-//	    
-	    //return product;
-	}
+		 productResponse product = null;
+		    String sql = "SELECT productId, productName, price, productDescription, sellerId, productQuantity, user_review, categoryId FROM Product_details WHERE productId = ?";
+		    
+		    try (Connection con = ConnectionFactory.getConnectionFactory().getConnection();
+		         PreparedStatement stmt = con.prepareStatement(sql)) {
+		        
+		        stmt.setInt(1, productId);
+		        try (ResultSet rs = stmt.executeQuery()) {
+		            if (rs.next()) {
+		                product = new productResponse(
+		                		rs.getInt("productId"),
+			                    rs.getString("productName"),
+			                    rs.getInt("categoryId"),
+	                            rs.getFloat("price"),
+			                    rs.getString("productDescription"),
+			                    rs.getInt("sellerId"),
+	                            rs.getInt("productQuantity"),
+		                        rs.getString("user_review")
+		                );
+		            }
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    
+		    return product;
+		}
 
 	@Override
 	public List<productResponse> getAllProducts() {

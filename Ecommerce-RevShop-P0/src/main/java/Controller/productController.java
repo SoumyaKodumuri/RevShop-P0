@@ -1,8 +1,9 @@
 package Controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
+import java.io.PrintWriter;
+import dto.productRequest;
 import dto.productResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,15 +12,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import service.productService;
 
-@WebServlet("/products/*")
+@WebServlet("/product/*")
 public class productController extends HttpServlet {
 	private productService productservice;
 	
 	@Override
 	public void init() throws ServletException {
-		this.productservice= new productService();
+	//	super.init();
 		System.out.println("init");
-		this.productservice=new productService();
+		this.productservice= new productService();
 	}
 	
 	@Override
@@ -47,5 +48,31 @@ public class productController extends HttpServlet {
 	}
 	
 	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+					
+			String productName = req.getParameter("productName");
+			int categoryId = Integer.parseInt(req.getParameter("categoryId"));
+			float price = Float.parseFloat(req.getParameter("price"));
+			String productDescription = req.getParameter("productDescription");
+			int sellerId=Integer.parseInt(req.getParameter("sellerId"));
+			int productQuantity =Integer.parseInt(req.getParameter("productQuantity"));
+			String userReview= req.getParameter("userReview");
+			
+			productRequest productrequest = new productRequest(productName,categoryId,price,productDescription,sellerId,productQuantity,userReview);
+			
+			try {
+				boolean response = productservice.createProduct(productrequest);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			throw new ServletException("unable to create product");
+			}
+			
+			
+	}
+	
+	
 
-}
+

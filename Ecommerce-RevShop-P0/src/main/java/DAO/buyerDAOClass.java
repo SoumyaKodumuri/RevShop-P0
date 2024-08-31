@@ -2,7 +2,6 @@ package DAO;
 
 import java.sql.Connection;
 
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -111,7 +110,7 @@ String sql= "INSERT INTO buyer(buyerName,email,password, phoneNo,address) VALUES
 	}
 		
     public boolean deletebuyer(int buyerId) {
-    String sql = "DELETE FROM buyer WHERE buyerIdId = ?";
+    String sql = "DELETE FROM buyer WHERE buyerId = ?";
 	    
 	    try (Connection con = ConnectionFactory.getConnectionFactory().getConnection();
 	         PreparedStatement stmt = con.prepareStatement(sql)) {

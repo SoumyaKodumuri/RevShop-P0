@@ -18,10 +18,10 @@ public class productService {
 
 			return ProductDao.getProductById(productId);
 		
-			
+		
 	}
 	
-	public boolean createProduct(productRequest productrequest) {
+	public  boolean createProduct(productRequest productrequest) {
 		return ProductDao.createProduct(productrequest);
 	}
 	
@@ -33,6 +33,17 @@ public class productService {
 		List<productResponse> products = ProductDao.getAllProducts();
 		return products;
 	}
+	
+	public boolean deleteProduct(int productId) {
+		return ProductDao.deleteProduct(productId);
+		
+	}
+	
+	public productResponse getProductReviewsById(int productId) {
+		return ProductDao.getProductReviewsById(productId);
+	}
+
+
 
 	
 	public static void main(String[] args) {
@@ -40,14 +51,17 @@ public class productService {
 		
 		//System.out.println(ps.createProduct(new productRequest("Boat Smart Watch", 28, 999.9f, "Black-BoatWatch water Resistance", 2, 3, "Good")));
 	//	System.out.println(ps.createProduct(new productRequest("Boat Smart Watch", 28, 999.9f, "RosePink-BoatWatch water Resistance", 2, 3, "Good")));
-		List<productResponse> products=ps.getAllProducts();
-	    
-		for(productResponse product :products) {
-			System.out.println(product.toString());
-		}
+//		List<productResponse> products=ps.getAllProducts();
+//	    
+//		for(productResponse product :products) {
+//			System.out.println(product.toString());
+//		}
 		//System.out.println(ps.getProductById(20));
 	//System.out.println(ps.updateproduct(new productRequest("Noise Smart Watch", 28, 1099.99f, "Navy Blue water proof", 2, 2, "Good"), 2));
 	 
+	//	System.out.println(ps.deleteProduct(2));
+		
+		System.out.println(ps.getProductReviewsById(1));
 	}
 
 }
